@@ -4,8 +4,7 @@ const mem = std.mem;
 const Uri = std.Uri;
 const ParseError = std.Uri.ParseError;
 const StringHashMap = @import("std").StringHashMap;
-const tools = @import("../tools.zig");
-const URL = tools.URL;
+const URL = @import("url.zig");
 
 test "URL" {
     var url = URL.init(.{});

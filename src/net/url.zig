@@ -8,7 +8,6 @@ const StringHashMap = @import("std").StringHashMap;
 pub const URL = @This();
 
 allocator: std.mem.Allocator = std.heap.page_allocator,
-
 uri: Uri = undefined,
 querymap: StringHashMap([]const u8) = StringHashMap([]const u8).init(std.heap.page_allocator),
 
@@ -29,6 +28,7 @@ pub fn parse(self: *URL, text: []const u8) ParseError!*URL {
 pub fn query(self: *URL) []const u8 {
     return self.uri.query.?.percent_encoded;
 }
+
 pub fn fragment(self: *URL) []const u8 {
     return self.uri.fragment.?.percent_encoded;
 }
@@ -36,9 +36,11 @@ pub fn fragment(self: *URL) []const u8 {
 pub fn scheme(self: *URL) []const u8 {
     return self.uri.scheme;
 }
+
 pub fn host(self: *URL) []const u8 {
     return self.uri.host.?.percent_encoded;
 }
+
 pub fn path(self: *URL) []const u8 {
     return self.uri.path.percent_encoded;
 }
@@ -47,6 +49,7 @@ pub fn queryMap(self: *URL) StringHashMap([]const u8) {
     self.querymap = parseQuery(self.query());
     return self.querymap;
 }
+
 pub fn parseQuery(uri_query: []const u8) StringHashMap([]const u8) {
     var querymap = StringHashMap([]const u8).init(std.heap.page_allocator);
     var queryitmes = std.mem.splitSequence(u8, uri_query, "&");
