@@ -59,12 +59,18 @@ pub fn parseQuery(uri_query: []const u8) StringHashMap([]const u8) {
             break;
         }
         var kv = std.mem.splitSequence(u8, pair.?, "=");
-        if (kv.index == null) {
+        if (kv.buffer.len == 0) {
             break;
         }
-        const key: []const u8 = kv.next().?;
-        const value: []const u8 = kv.next().?;
-        querymap.put(key, value) catch break;
+        const key = kv.next();
+        if (key == null) {
+            break;
+        }
+        const value = kv.next();
+        if (value == null) {
+            break;
+        }
+        querymap.put(key.?, value.?) catch break;
     }
     return querymap;
 }
